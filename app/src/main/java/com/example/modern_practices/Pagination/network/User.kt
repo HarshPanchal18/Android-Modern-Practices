@@ -9,5 +9,6 @@ data class User(
     @field:Json(name = "picture") val picture: String,
     @field:Json(name = "title") val title: String
 ) {
-    val name: String = "$title $firstName $lastName"
+    val name: String
+        get () = "$title $firstName $lastName"
 }

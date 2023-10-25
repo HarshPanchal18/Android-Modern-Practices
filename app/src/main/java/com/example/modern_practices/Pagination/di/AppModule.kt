@@ -1,5 +1,6 @@
 package com.example.modern_practices.Pagination.di
 
+import com.example.modern_practices.Pagination.network.UserApi
 import com.example.modern_practices.Pagination.repository.UserRepository
 import com.example.modern_practices.Pagination.repository.UserRepositoryImpl
 import dagger.Module
