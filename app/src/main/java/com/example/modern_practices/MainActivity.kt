@@ -1,5 +1,6 @@
 package com.example.modern_practices
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.ViewGroup
 import android.webkit.WebView
@@ -26,13 +27,13 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     WebViewPage("https://www.google.com/")
-                    //WebViewPage("https://www.google.com/search?q=facebook")
                 }
             }
         }
     }
 }
 
+@SuppressLint("SetJavaScriptEnabled")
 @Composable
 fun WebViewPage(url: String) {
     AndroidView(factory = {
@@ -42,6 +43,11 @@ fun WebViewPage(url: String) {
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
             webViewClient = WebViewClient()
+
+            settings.javaScriptEnabled = true
+            // Verify that the client requesting your web page is actually your Android app.
+            settings.userAgentString = System.getProperty("http.agent")
+
             loadUrl(url)
         }
     }, update = { it.loadUrl(url) }
