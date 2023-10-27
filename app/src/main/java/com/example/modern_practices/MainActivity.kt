@@ -2,7 +2,6 @@ package com.example.modern_practices
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
@@ -26,7 +25,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WebViewPage("https://www.google.com/")
+                    WebViewPage(
+                        "file:///android_asset/index.html",
+                        modifier = Modifier.fillMaxSize()
+                    )
                 }
             }
         }
@@ -35,13 +37,13 @@ class MainActivity : ComponentActivity() {
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun WebViewPage(url: String) {
+fun WebViewPage(url: String, modifier: Modifier) {
     AndroidView(factory = {
         WebView(it).apply {
-            layoutParams = ViewGroup.LayoutParams(
+            /*layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
-            )
+            )*/
             webViewClient = WebViewClient()
 
             settings.javaScriptEnabled = true
@@ -50,6 +52,7 @@ fun WebViewPage(url: String) {
 
             loadUrl(url)
         }
-    }, update = { it.loadUrl(url) }
+    }, update = { it.loadUrl(url) },
+        modifier = modifier
     )
 }
