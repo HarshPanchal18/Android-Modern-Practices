@@ -1,23 +1,17 @@
 package com.example.modern_practices
 
 import android.annotation.SuppressLint
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -54,7 +48,7 @@ fun WebViewPage(url: String, modifier: Modifier) {
 
     val context = LocalContext.current
     val adServers = StringBuilder()
-    var line: String
+    var line: String?
     val inputStream = context.resources.openRawResource(R.raw.adblockserverlist)
     val br = BufferedReader(InputStreamReader(inputStream))
 
