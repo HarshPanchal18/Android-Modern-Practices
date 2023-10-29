@@ -1,6 +1,10 @@
 package com.example.modern_practices
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.webkit.WebResourceError
@@ -19,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
-private var webpageURL = "https://www.harsh1471014.com/"
+private var webpageURL = "https://www.boltuix.com/"
 
 class MainActivity : ComponentActivity() {
 
@@ -62,7 +66,9 @@ fun WebViewPage(url: String) {
                         error: WebResourceError?
                     ) {
                         super.onReceivedError(view, request, error)
-                        webpageURL = "file:///android_asset/404.html"
+                        webpageURL =
+                            if (isOnline(context)) "file:///android_asset/404.html"
+                            else "file:///android_asset/error.html"
                         mutableStateTrigger.value = true
                     }
                 }
@@ -74,4 +80,27 @@ fun WebViewPage(url: String) {
     )
     if (mutableStateTrigger.value)
         WebViewPage(url = webpageURL)
+}
+
+fun isOnline(context: Context): Boolean {
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                ?: return false
+
+        return when {
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            else -> false
+        }
+    } else {
+        @Suppress("DEPRECATION")
+        if (connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!.isConnectedOrConnecting)
+            return true
+    }
+    return false
 }
