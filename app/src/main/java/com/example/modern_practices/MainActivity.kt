@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.modern_practices.screens.CameraPermission
-import com.example.modern_practices.screens.LocationPermission
+import com.example.modern_practices.screens.NoChat
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,9 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //BuySomeItem()
-                    //CameraPermission()
-                    LocationPermission()
+                    NoChat()
                 }
             }
         }
