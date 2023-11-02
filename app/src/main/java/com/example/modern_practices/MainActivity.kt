@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.modern_practices.screens.NoResult
+import com.example.modern_practices.screens.NoResultSearch
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NoResult()
+                    NoResultSearch()
                 }
             }
         }
