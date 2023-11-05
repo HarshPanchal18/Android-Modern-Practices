@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.modern_practices.screens.NotificationPermission
-import com.example.modern_practices.screens.NotificationUnRead
-import com.example.modern_practices.screens.OhNo
+import com.example.modern_practices.screens.PaymentFailed
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    OhNo()
+                    PaymentFailed()
                 }
             }
         }
