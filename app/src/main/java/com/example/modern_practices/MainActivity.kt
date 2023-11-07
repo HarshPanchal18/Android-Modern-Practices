@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
                     NavHost(navController = navController, startDestination = "loginPage") {
                         composable(route = "loginPage") { LoginPage(navController = navController) }
-                        //composable(route = "registerPage") { RegisterPage(navController = navController) }
+                        composable(route = "registerPage") { RegisterPage(navController = navController) }
                         composable(route = "resetPage") { ResetPage(navController = navController) }
                     }
                 }
