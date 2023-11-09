@@ -28,6 +28,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -58,21 +59,15 @@ fun LoginPage(navController: NavController) {
             .background(color = Color.Transparent)
     ) {
 
-        Box(
-            modifier = Modifier
-                /*.background(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(25.dp, 5.dp, 25.dp, 5.dp)
-                )*/
-                .align(Alignment.BottomCenter),
-        ) {
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
+
             Image(
                 painter = painterResource(id = R.drawable.user_sign_in),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .height(200.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             )
 
             Column(
@@ -107,14 +102,7 @@ fun LoginPage(navController: NavController) {
                 val cornerRadius = 16.dp
 
                 Spacer(modifier = Modifier.padding(10.dp))
-                /* Button(
-                     onClick = {},
-                     modifier = Modifier
-                         .fillMaxWidth(0.8f)
-                         .height(50.dp)
-                 ) {
-                     Text(text = "Login", fontSize = 20.sp)
-                 }*/
+
                 GradientButton(
                     gradientColors = gradientColor,
                     cornerRadius = cornerRadius,
@@ -184,10 +172,6 @@ fun GradientButton(
                     shape = roundedCornerShape
                 )
                 .clip(roundedCornerShape)
-                /*.background(
-                    brush = Brush.linearGradient(colors = gradientColors),
-                    shape = RoundedCornerShape(cornerRadius)
-                )*/
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -201,7 +185,6 @@ fun GradientButton(
 }
 
 
-//email id
 @OptIn(
     ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class,
     ExperimentalComposeUiApi::class
@@ -232,6 +215,7 @@ fun SimpleOutlinedTextFieldSample() {
             unfocusedBorderColor = MaterialTheme.colorScheme.primary
         ),
         singleLine = true,
+        maxLines = 1,
         modifier = Modifier.fillMaxWidth(0.8f),
         keyboardActions = KeyboardActions(
             onDone = {
@@ -249,13 +233,19 @@ fun SimpleOutlinedPasswordTextField() {
     val keyboardController = LocalSoftwareKeyboardController.current
     var password by rememberSaveable { mutableStateOf("") }
     var passwordHidden by rememberSaveable { mutableStateOf(true) }
+    var isValid by remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = password,
-        onValueChange = { password = it },
+        onValueChange = {
+            password = it
+            isValid = password.isNotEmpty() && isValidText(it)
+        },
+        isError = isValid,
         shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
         label = {
             Text(
-                "Enter Password",
+                text = "Enter Password",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.labelMedium,
             )

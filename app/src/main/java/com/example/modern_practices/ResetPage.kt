@@ -52,14 +52,7 @@ fun ResetPage(navController: NavController) {
             .background(color = Color.Transparent)
     ) {
 
-        Box(
-            modifier = Modifier
-                /*.background(
-                        color = MaterialTheme.colorScheme.onPrimary,
-                        shape = RoundedCornerShape(25.dp, 5.dp, 25.dp, 5.dp)
-                    )*/
-                .align(Alignment.Center)
-        ) {
+        Box(modifier = Modifier.align(Alignment.Center)) {
             Image(
                 painter = painterResource(id = R.drawable.user_forgot),
                 contentDescription = null,
@@ -98,12 +91,7 @@ fun ResetPage(navController: NavController) {
                 val cornerRadius = 16.dp
 
                 Spacer(modifier = Modifier.padding(10.dp))
-                /* Button(
-                     onClick = {},
-                     modifier = Modifier
-                         .fillMaxWidth(0.8f)
-                         .height(50.dp)
-                 ) { Text(text = "Login", fontSize = 20.sp) }*/
+
                 GradientButtonReset(
                     gradientColors = gradientColor,
                     cornerRadius = cornerRadius,
@@ -183,9 +171,7 @@ private fun GradientButtonReset(
             .padding(start = 32.dp, end = 32.dp),
         onClick = {},
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = Color.Transparent
-        ),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
         shape = RoundedCornerShape(cornerRadius)
     ) {
 
@@ -197,10 +183,6 @@ private fun GradientButtonReset(
                     shape = roundedCornerShape
                 )
                 .clip(roundedCornerShape)
-                /*.background(
-                    brush = Brush.linearGradient(colors = gradientColors),
-                    shape = RoundedCornerShape(cornerRadius)
-                )*/
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             contentAlignment = Alignment.Center
         ) {

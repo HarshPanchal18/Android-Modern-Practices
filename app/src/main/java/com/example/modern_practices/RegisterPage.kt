@@ -1,5 +1,7 @@
 package com.example.modern_practices
 
+import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,6 +27,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -53,14 +57,7 @@ fun RegisterPage(navController: NavController) {
             .fillMaxSize()
             .background(color = Color.Transparent)
     ) {
-        Box(
-            modifier = Modifier
-                /*.background(
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(25.dp, 5.dp, 25.dp, 5.dp)
-                )*/
-                .align(Alignment.BottomCenter)
-        ) {
+        Box(modifier = Modifier.align(Alignment.BottomCenter)) {
 
             Image(
                 painterResource(id = R.drawable.user_reg),
@@ -156,68 +153,103 @@ fun RegisterPage(navController: NavController) {
 fun RegisterName() {
     val focusManager = LocalFocusManager.current
     var text by rememberSaveable { mutableStateOf("") }
+    var isNameValid by remember { mutableStateOf(true) }
 
-    OutlinedTextField(value = text, onValueChange = { text = it },
-        shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
-        label = {
-            Text(
-                text = "Name",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.labelMedium
+    Column(horizontalAlignment = Alignment.Start) {
+        OutlinedTextField(
+            value = text,
+            onValueChange = {
+                text = it
+                isNameValid = isValidText(it)
+            },
+            shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
+            label = {
+                Text(
+                    text = "Name",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            },
+            placeholder = { Text(text = "Name") },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Text
+            ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary
+            ),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                }
             )
-        },
-        placeholder = { Text(text = "Name") },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Text
-        ),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f),
-        keyboardActions = KeyboardActions(
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Next)
-            }
         )
-    )
+        if (!isNameValid) {
+            Text(
+                text = "Invalid name",
+                color = Color.Red,
+                textAlign = TextAlign.Start
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterEmail() {
+    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
     var text by rememberSaveable { mutableStateOf("") }
+    var isEmailValid by remember { mutableStateOf(true) }
 
-    OutlinedTextField(value = text, onValueChange = { text = it },
-        shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
-        label = {
-            Text(
-                text = "Email",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.labelMedium
+    Column(horizontalAlignment = Alignment.Start) {
+        OutlinedTextField(
+            value = text,
+            onValueChange = {
+                text = it
+                isEmailValid = isValidEmail(it)
+            },
+            shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
+            label = {
+                Text(
+                    text = "Email",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            },
+            placeholder = { Text(text = "Email") },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
+            ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary
+            ),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                    // do something here
+                    if (!isEmailValid) {
+                        Toast.makeText(context, "Invalid", Toast.LENGTH_SHORT).show()
+                    }
+                }
             )
-        },
-        placeholder = { Text(text = "Email") },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Email
-        ),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f),
-        keyboardActions = KeyboardActions(
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Next)
-                // do something here
-            }
         )
-    )
+
+        if (!isEmailValid) {
+            Text(
+                text = "Invalid email address",
+                color = Color.Red,
+                textAlign = TextAlign.Start
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -226,33 +258,47 @@ fun RegisterPhone() {
     val focusManager = LocalFocusManager.current
     var text by rememberSaveable { mutableStateOf("") }
 
-    OutlinedTextField(value = text, onValueChange = { text = it },
-        shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
-        label = {
-            Text(
-                text = "Phone",
-                color = MaterialTheme.colorScheme.primary,
-                style = MaterialTheme.typography.labelMedium
+    Column(horizontalAlignment = Alignment.Start) {
+        OutlinedTextField(
+            value = text,
+            onValueChange = { newText ->
+                if (newText.all { it.isDigit() })
+                    text = newText
+            },
+            shape = RoundedCornerShape(topEnd = 12.dp, bottomStart = 12.dp),
+            label = {
+                Text(
+                    text = "Phone",
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            },
+            placeholder = { Text(text = "Phone") },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Phone
+            ),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.primary
+            ),
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth(0.8f),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(FocusDirection.Next)
+                    // do something here
+                }
             )
-        },
-        placeholder = { Text(text = "Phone") },
-        keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Next,
-            keyboardType = KeyboardType.Phone
-        ),
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.primary
-        ),
-        singleLine = true,
-        modifier = Modifier.fillMaxWidth(0.8f),
-        keyboardActions = KeyboardActions(
-            onNext = {
-                focusManager.moveFocus(FocusDirection.Next)
-                // do something here
-            }
         )
-    )
+
+        if (text.isNotEmpty() && (text.length != 10 || !text.all { it.isDigit() })){//!isValidPhone) {
+            Text(
+                text = "Enter 10 digits number",
+                color = Color.Red
+            )
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -347,4 +393,20 @@ fun RegisterPasswordConfirm() {
             }
         )
     )
+}
+
+fun isValidText(text: String): Boolean {
+    // Add your custom validation rules here
+    return text.matches(Regex("[a-zA-Z]+"))
+}
+
+fun isValidEmail(email: String): Boolean {
+    /*val emailRegex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+".toRegex()
+    return email.matches(emailRegex)*/
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches()
+}
+
+fun isValidPhone(phone: String): Boolean {
+    //return Patterns.PHONE.matcher(phone).matches()
+    return phone.matches(Regex("^\\d{10}$"))
 }
