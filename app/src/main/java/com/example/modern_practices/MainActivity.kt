@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.modern_practices.screens.PaymentFailed
+import com.example.modern_practices.screens.NoInternetDialog
+import com.example.modern_practices.screens.on_boarding.OnBoarding
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    PaymentFailed()
+                    OnBoarding()
                 }
             }
         }

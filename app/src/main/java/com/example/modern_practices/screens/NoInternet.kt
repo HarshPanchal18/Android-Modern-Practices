@@ -42,7 +42,7 @@ fun NoInternet() {
                 modifier = Modifier
                     .height(200.dp)
                     .fillMaxWidth()
-                )
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -79,7 +79,7 @@ fun NoInternet() {
                 gradientColors = gradientColor,
                 cornerRadius = cornerRadius,
                 nameButton = "Try again",
-                roundedCornerShape = RoundedCornerShape(topStart = 30.dp,bottomEnd = 30.dp)
+                roundedCornerShape = RoundedCornerShape(topStart = 30.dp, bottomEnd = 30.dp)
             )
 
         }
