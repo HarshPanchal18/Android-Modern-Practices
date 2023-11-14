@@ -14,11 +14,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Linear.LinearRecyclerView"
+            android:theme="@style/Theme.AppCompat"
+            android:exported="true" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|screenLayout"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ModernPractices">
+            android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

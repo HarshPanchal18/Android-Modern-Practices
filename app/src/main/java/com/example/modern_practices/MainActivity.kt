@@ -1,27 +1,23 @@
 package com.example.modern_practices
 
-import com.example.modern_practices.ui.theme.ModernPracticesTheme
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import androidx.appcompat.app.AppCompatActivity
+import com.example.modern_practices.Linear.LinearItemsAdapter
+import com.example.modern_practices.Linear.LinearRecyclerView
+import com.example.modern_practices.databinding.ActivityMainBinding
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            ModernPracticesTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                }
-            }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.linearRvBtn.setOnClickListener {
+            startActivity(Intent(this, LinearRecyclerView::class.java))
         }
     }
 }
