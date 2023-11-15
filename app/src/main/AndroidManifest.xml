@@ -14,9 +14,13 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Staggered.StaggeredRecyclerView"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
-            android:name=".Grid.GridRecyclerView"
             android:exported="true" />
+        <activity
+            android:name=".Grid.GridRecyclerView"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".Linear.LinearRecyclerView"
             android:exported="true"

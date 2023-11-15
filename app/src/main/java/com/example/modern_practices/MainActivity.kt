@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.modern_practices.Grid.GridRecyclerView
 import com.example.modern_practices.Linear.LinearItemsAdapter
 import com.example.modern_practices.Linear.LinearRecyclerView
+import com.example.modern_practices.Staggered.StaggeredRecyclerView
 import com.example.modern_practices.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -23,6 +24,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.gridRvBtn.setOnClickListener {
             startActivity(Intent(this, GridRecyclerView::class.java))
+        }
+
+        binding.staggeredRvBtn.setOnClickListener {
+            startActivity(Intent(this,StaggeredRecyclerView::class.java))
         }
     }
 }
