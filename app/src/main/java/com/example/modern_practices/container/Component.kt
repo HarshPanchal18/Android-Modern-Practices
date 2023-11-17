@@ -8,5 +8,4 @@ class Component : KoinComponent {
 
     val car: Car by inject()
 
-    // val car1:Car = get() - early initialization
 }
