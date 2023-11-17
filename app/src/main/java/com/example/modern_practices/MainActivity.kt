@@ -1,33 +1,23 @@
 package com.example.modern_practices
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.example.modern_practices.Grid.GridRecyclerView
-import com.example.modern_practices.Linear.LinearItemsAdapter
-import com.example.modern_practices.Linear.LinearRecyclerView
-import com.example.modern_practices.Staggered.StaggeredRecyclerView
-import com.example.modern_practices.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Surface
+import com.example.modern_practices.container.Component
+import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
+    private val component = Component()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        binding.linearRvBtn.setOnClickListener {
-            startActivity(Intent(this, LinearRecyclerView::class.java))
-        }
-
-        binding.gridRvBtn.setOnClickListener {
-            startActivity(Intent(this, GridRecyclerView::class.java))
-        }
-
-        binding.staggeredRvBtn.setOnClickListener {
-            startActivity(Intent(this,StaggeredRecyclerView::class.java))
+        setContent {
+            ModernPracticesTheme {
+                Surface {
+                    component.car.getCar()
+                }
+            }
         }
     }
 }
