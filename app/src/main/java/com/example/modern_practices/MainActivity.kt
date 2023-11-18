@@ -15,7 +15,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             ModernPracticesTheme {
                 Surface {
-                    component.car.getCar()
+                    //component.car.getCar()
+                    component.main.getDemo()
                 }
             }
         }
