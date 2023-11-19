@@ -16,7 +16,8 @@ class MainActivity : ComponentActivity() {
             ModernPracticesTheme {
                 Surface {
                     //component.car.getCar()
-                    component.main.getDemo()
+                    //component.main.getDemo()
+                    component.mainViewModel.getTest()
                 }
             }
         }
