@@ -17,7 +17,8 @@ class MainActivity : ComponentActivity() {
                 Surface {
                     //component.car.getCar()
                     //component.main.getDemo()
-                    component.mainViewModel.getTest()
+                    //component.mainViewModel.getTest()
+                    component.retrofitViewModel.getPost()
                 }
             }
         }
