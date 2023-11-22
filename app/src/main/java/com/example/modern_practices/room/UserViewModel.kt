@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class UserViewModel constructor(private val dao: UserDao): ViewModel() {
-    fun insert(user:User) = viewModelScope.launch {
+    fun insert(user:User) {//= viewModelScope.launch {
         dao.insert(user)
     }
 

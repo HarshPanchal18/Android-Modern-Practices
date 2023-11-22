@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
                     //component.main.getDemo()
                     //component.mainViewModel.getTest()
                     //component.retrofitViewModel.getPost()
-                    component.roomViewModel.getAllUser()
+                    //component.roomViewModel.getAllUser()
+                    component.users.getUser()
                 }
             }
         }

@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.Flow
 interface UserDao {
 
     @Insert
-    suspend fun insert(user: User)
+    //suspend fun insert(user: User)
+    fun insert(user: User)
 
     @Query("Select * from user")
     fun getAllUser(): Flow<List<User>>
