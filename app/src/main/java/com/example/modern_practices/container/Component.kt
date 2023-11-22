@@ -6,6 +6,7 @@ import com.example.modern_practices.demo.viewmodel.MainViewModel
 import com.example.modern_practices.qualifier.Users
 import com.example.modern_practices.retrofit.RetrofitViewModel
 import com.example.modern_practices.room.UserViewModel
+import com.example.modern_practices.scopes.ComponentA
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -22,4 +23,6 @@ class Component : KoinComponent {
     val roomViewModel: UserViewModel by inject()
 
     val users:Users by inject()
+
+    val scope: ComponentA by inject()
 }

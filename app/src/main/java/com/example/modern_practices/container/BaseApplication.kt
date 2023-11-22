@@ -7,6 +7,7 @@ import com.example.modern_practices.di.interfaceModule
 import com.example.modern_practices.di.retrofitBuilderModule
 import com.example.modern_practices.di.roomModule
 import com.example.modern_practices.qualifier.usersModule
+import com.example.modern_practices.scopes.scopeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -18,7 +19,7 @@ class BaseApplication : Application() {
         startKoin {
             modules(
                 demoModule, interfaceModule, viewModelModule, retrofitBuilderModule, roomModule,
-                usersModule
+                usersModule, scopeModule
             )
             androidContext(this@BaseApplication)
         }
