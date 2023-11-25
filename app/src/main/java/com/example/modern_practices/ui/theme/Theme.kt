@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import com.example.modern_practices.font.FontSizePrefs
 
 private val LightColors = lightColorScheme(
     primary = md_theme_light_primary,
@@ -69,6 +70,8 @@ private val DarkColors = darkColorScheme(
 
 @Composable
 fun ModernPracticesTheme(
+    fontSizePrefs: FontSizePrefs = FontSizePrefs.DEFAULT,
+    dynamicColor: Boolean = true,
     useDarkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
@@ -80,7 +83,7 @@ fun ModernPracticesTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = Typography,
+        typography = getPersonalizedTypography(fontSizePrefs),
         content = content,
         shapes = Shapes,
     )
