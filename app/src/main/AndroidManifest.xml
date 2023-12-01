@@ -10,7 +10,6 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".BaseApplication"
         android:theme="@style/Theme.ModernPractices"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">

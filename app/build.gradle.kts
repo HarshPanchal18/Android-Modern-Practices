@@ -1,10 +1,6 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
-    id("koin")
 }
 
 android {
@@ -79,17 +75,4 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.5.0")
 
-    val koinVersion = "3.5.2-RC1"
-    implementation("io.insert-koin:koin-core:$koinVersion")
-    implementation("io.insert-koin:koin-android:$koinVersion")
-    implementation("io.insert-koin:koin-androidx-compose:$koinVersion")
-
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
-
-    val room_version = "2.3.0"
-    implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
 }
