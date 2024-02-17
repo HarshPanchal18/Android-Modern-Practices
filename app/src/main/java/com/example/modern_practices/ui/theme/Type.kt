@@ -43,7 +43,7 @@ val jostFontFamily = FontFamily(
 )
 
 // Set of Material typography styles to start with
-val Typography = Typography(
+/*val Typography = Typography(
 
     displayLarge = TextStyle(
         fontFamily = jostFontFamily,
@@ -149,5 +149,16 @@ val Typography = Typography(
         fontSize = 11.sp,
         lineHeight = 16.sp,
         letterSpacing = 0.5.sp
+    )
+)
+*/
+val Typography = Typography(
+    titleSmall = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Medium
+    ),
+    bodyLarge = TextStyle(
+        fontSize = 16.sp,
+        fontWeight = FontWeight.Normal
     )
 )
