@@ -82,7 +82,9 @@ dependencies {
     //implementation("androidx.navigation:navigation-compose:2.7.7")
 
     val voyagerVersion = "1.0.0"
-    // Navigator
-    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
+    implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion") // Navigator
+    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:$voyagerVersion") // BottomSheetNavigator
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:$voyagerVersion") // TabNavigator
+    implementation("cafe.adriel.voyager:voyager-transitions:$voyagerVersion") // Transitions
 
 }

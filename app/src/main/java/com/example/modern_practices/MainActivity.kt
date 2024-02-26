@@ -21,7 +21,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigator(HomeScreen)
+                    Navigator(HomeScreen) { navigator ->
+                        //SlideTransition(navigator)
+                        //FadeTransition(navigator)
+                        //CustomTransition(navigator)
+                        CrossFadeTransition(navigator)
+                    }
                 }
             }
         }
