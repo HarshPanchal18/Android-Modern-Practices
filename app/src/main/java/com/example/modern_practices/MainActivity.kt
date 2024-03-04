@@ -5,9 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import cafe.adriel.voyager.navigator.tab.CurrentTab
+import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,11 +24,17 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigator(HomeScreen) { navigator ->
-                        //SlideTransition(navigator)
-                        //FadeTransition(navigator)
-                        //CustomTransition(navigator)
-                        CrossFadeTransition(navigator)
+                    TabNavigator(HomeTab) {
+                        Scaffold(
+                            bottomBar = {
+                                BottomSheetNavigator {
+                                    //
+                                }
+                            }
+                        ) {
+                            it
+                            CurrentTab()
+                        }
                     }
                 }
             }
