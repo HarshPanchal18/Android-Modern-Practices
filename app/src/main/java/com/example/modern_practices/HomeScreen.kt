@@ -15,6 +15,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.stack.StackEvent
 import cafe.adriel.voyager.navigator.LocalNavigator
@@ -200,10 +203,16 @@ object ProfileTab : Tab {
 fun RowScope.TabNavigationItem(tab: Tab) {
     val tabNavigator = LocalTabNavigator.current
 
-    /*BottomNavigationItem(
-        selected = { tabNavigator.current == tab },
+    NavigationBarItem(
+        selected = tabNavigator.current == tab,
         onClick = { tabNavigator.current = tab },
         label = { Text(text = tab.options.title) },
-        icon = {},
-    )*/
+        icon = {
+            Icon(
+                painter = tab.options.icon
+                    ?: painterResource(id = R.drawable.ic_launcher_foreground),
+                contentDescription = null
+            )
+        },
+    )
 }
