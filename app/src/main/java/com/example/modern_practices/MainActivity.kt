@@ -1,12 +1,13 @@
 package com.example.modern_practices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
 
 class MainActivity : ComponentActivity() {
@@ -16,10 +17,23 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ModernPracticesTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = Routes.FirstScreen) {
+                    composable<Routes.FirstScreen> {
+                        FirstScreen {
+                            navController.navigate(
+                                Routes.SecondScreen(primitive = "Custom Primitive Value")
+                            )
+                        }
+                    }
+
+                    composable<Routes.SecondScreen> { backstackEntry ->
+                        val customVal = backstackEntry.toRoute<Routes.SecondScreen>()
+                        Log.i("SecondScreen", customVal.primitive)
+                        SecondScreen {
+                            navController.navigate(Routes.FirstScreen)
+                        }
+                    }
                 }
             }
         }
