@@ -79,6 +79,11 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.material.icons.extended)
 
+    implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt")
+    implementation("io.ktor:ktor-client-android:2.3.9")
+
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
 }
