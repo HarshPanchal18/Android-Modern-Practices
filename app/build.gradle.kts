@@ -1,8 +1,11 @@
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.gradle.ktlint)
     id("kotlin-parcelize") // needed only for non-primitive classes
 }
 
@@ -56,6 +59,16 @@ android {
     }
 }
 
+ktlint {
+    android = true // This is an Android project
+    ignoreFailures = false // Fix project before running if there is a failure
+    reporters { // reporting linting issues
+        reporter(ReporterType.PLAIN)
+        reporter(ReporterType.CHECKSTYLE)
+        reporter(ReporterType.SARIF)
+    }
+}
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -79,10 +92,10 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.material.icons.extended)
 
+    // https://supabase.com/docs/reference/kotlin/introduction
     implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt")
-    implementation("io.ktor:ktor-client-android:2.3.9")
+    implementation(libs.ktor.client.android)
 
     implementation(libs.androidx.navigation.compose)
     implementation(libs.kotlinx.serialization.json)
