@@ -8,20 +8,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -35,16 +25,18 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingExcept
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.exceptions.RestException
 import io.github.jan.supabase.gotrue.Auth
+import io.github.jan.supabase.gotrue.auth
+import io.github.jan.supabase.gotrue.providers.Google
+import io.github.jan.supabase.gotrue.providers.builtin.IDToken
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.launch
-import kotlinx.serialization.Serializable
 import java.security.MessageDigest
 import java.util.UUID
 
 val supabaseClient = createSupabaseClient(
-    supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqeGl0am1oc2dqdHFiY3NqdWpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTkyMTEwMzMsImV4cCI6MjAzNDc4NzAzM30.-IpvaP5e_1D-Tfp3t1sk3Os7E2YcvhuYtOYMz2GPdE8",
-    supabaseUrl = "https://wjxitjmhsgjtqbcsjujl.supabase.co"
+    supabaseKey = "supabase_key",
+    supabaseUrl = "supabase_url"
 ) {
     install(Postgrest)
     install(Auth)
@@ -59,65 +51,15 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ModernPracticesTheme {
-                val coroutineScope = rememberCoroutineScope()
-                val notes = remember { mutableStateListOf<Note>() }
-
                 Surface {
-
-                    LaunchedEffect(key1 = Unit) {
-                        notes.addAll(
-                            noteTable.select().decodeList()
-                        )
-                    }
-
-                    val newId = notes.size + 1
-
                     Column(modifier = Modifier.fillMaxSize()) {
-                        NoteList(notes = notes)
-
-                        FloatingActionButton(
-                            onClick = {
-                                coroutineScope.launch {
-                                    val newNote = Note(id = newId, body = "note3")
-                                    insertNote(newNote)
-                                    notes.add(newNote)
-                                }
-                            }) {
-                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Add note")
-                        }
-
-                        /*Button(onClick = {
-                            coroutineScope.launch {
-                                supabaseClient.auth.signInWith(Google)
-                            }
-                        }) {
-                            Text(text = "Start with Google.")
-                        }*/
-
                         GoogleSignInButton()
+                        InsertButton()
                     }
                 }
             }
         }
     }
-}
-
-@Serializable
-data class Note(val id: Int, val body: String)
-
-@Composable
-fun NoteList(notes: List<Note>, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier) {
-        items(notes) { note ->
-            ListItem(headlineContent = {
-                Text(text = "${note.id} : ${note.body}")
-            })
-        }
-    }
-}
-
-suspend fun insertNote(note: Note) {
-    noteTable.insert(note)
 }
 
 @Composable
@@ -136,22 +78,23 @@ fun GoogleSignInButton(modifier: Modifier = Modifier) {
         val hashedNonce = digest.fold("") { str, it -> str + "%02x".format(it) }
 
         val credentialManager = CredentialManager.create(context)
-        val googleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("455330790303-655r4je8ap9v1e57te6baa5t1psh0tci.apps.googleusercontent.com")
-            .setNonce(hashedNonce)
-            .build()
-        val request = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
-            .build()
+        val googleIdOption = GetGoogleIdOption.Builder().setFilterByAuthorizedAccounts(false)
+            .setServerClientId("server_id")
+            .setNonce(hashedNonce).build()
+        val request = GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build()
 
         coroutineScope.launch {
             try {
                 val result = credentialManager.getCredential(context = context, request = request)
                 val credential = result.credential
-                val googleIdTokenCredential = GoogleIdTokenCredential
-                    .createFrom(credential.data)
+                val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
                 val googleIdToken = googleIdTokenCredential.idToken
+
+                supabaseClient.auth.signInWith(IDToken) {
+                    idToken = googleIdToken
+                    provider = Google
+                    nonce = rawNonce
+                }
 
                 Log.i(TAG, "GoogleSignInButton: $googleIdToken")
                 Toast.makeText(context, "You're signed in!", Toast.LENGTH_SHORT).show()
@@ -175,3 +118,42 @@ fun GoogleSignInButton(modifier: Modifier = Modifier) {
         Text(text = "Sign in with Google")
     }
 }
+
+@Composable
+fun InsertButton(modifier: Modifier = Modifier) {
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    Button(onClick = {
+        coroutineScope.launch {
+            try {
+                // val userId = supabaseClient.auth.sessionManager.loadSession()?.user?.id
+                noteTable.insert(mapOf("body" to "Hello from android!"))
+                Toast.makeText(context, "New row inserted", Toast.LENGTH_SHORT).show()
+            } catch (e: RestException) {
+                Toast.makeText(context, e.localizedMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }) {
+        Text(text = "Insert new row")
+    }
+}
+
+/*@Composable
+fun DeleteNoteButton(modifier: Modifier = Modifier) {
+    val coroutineScope = rememberCoroutineScope()
+
+    Button(onClick = {
+        coroutineScope.launch {
+            val userId = supabaseClient.auth.sessionManager.loadSession()?.user?.id
+            Log.i(TAG, "DeleteNoteButton: $userId")
+            noteTable.delete {
+                filter {
+                    eq("user_id", "f401b6b6-9efb-4f22-a7a0-248f09f5f62d")
+                }
+            }
+        }
+    }) {
+        Text(text = "Delete notes")
+    }
+}*/

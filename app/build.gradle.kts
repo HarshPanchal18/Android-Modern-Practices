@@ -95,6 +95,7 @@ dependencies {
     // https://supabase.com/docs/reference/kotlin/introduction
     implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.github.jan-tennert.supabase:gotrue-kt")
     implementation(libs.ktor.client.android)
 
     implementation(libs.androidx.navigation.compose)
