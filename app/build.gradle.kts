@@ -92,7 +92,9 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.material.icons.extended)
 
-    // https://supabase.com/docs/reference/kotlin/introduction
+    implementation("androidx.biometric:biometric:1.1.0")
+
+    /*// https://supabase.com/docs/reference/kotlin/introduction
     implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
     implementation("io.github.jan-tennert.supabase:postgrest-kt")
     implementation("io.github.jan-tennert.supabase:gotrue-kt")
@@ -103,5 +105,5 @@ dependencies {
 
     implementation("androidx.credentials:credentials:1.2.2")
     implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")*/
 }
