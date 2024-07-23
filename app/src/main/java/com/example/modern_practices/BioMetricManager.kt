@@ -1,4 +1,4 @@
-package com.example.modern_practices.ui.theme
+package com.example.modern_practices
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
