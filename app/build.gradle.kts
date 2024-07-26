@@ -92,7 +92,7 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.material.icons.extended)
 
-    implementation("androidx.biometric:biometric:1.1.0")
+    implementation(libs.androidx.biometric)
 
     /*// https://supabase.com/docs/reference/kotlin/introduction
     implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
