@@ -2,24 +2,19 @@
 activityCompose = "1.8.2"
 agp = "8.4.1"
 appcompat = "1.6.1"
-biometric = "1.1.0"
 composeBomVersion = "2024.05.00"
 espressoCore = "3.5.1"
 junitVersion = "1.1.5"
 junit = "4.13.2"
 kotlin = "2.0.0"
-kotlinxSerialization = "1.6.3"
 ktlintVersion = "11.0.0"
-ktorClientAndroid = "2.3.9"
 lifecycleRuntimeCompose = "2.7.0"
 lifecycleRuntimeKtx = "2.7.0"
 coreKtx = "1.12.0"
-navigationCompose = "2.8.0-beta01"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
-androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "biometric" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -34,9 +29,6 @@ androidx-ui = { module = "androidx.compose.ui:ui" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBomVersion" }
 junit = { module = "junit:junit", version.ref = "junit" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

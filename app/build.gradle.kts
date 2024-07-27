@@ -92,18 +92,14 @@ dependencies {
     implementation(libs.lifecycle.runtime.compose)
     implementation(libs.androidx.material.icons.extended)
 
-    implementation(libs.androidx.biometric)
+    // Preferences Datastore
+    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha04")
 
-    /*// https://supabase.com/docs/reference/kotlin/introduction
-    implementation(platform("io.github.jan-tennert.supabase:bom:2.2.1"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt")
-    implementation(libs.ktor.client.android)
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.kotlinx.serialization.json)
-
-    implementation("androidx.credentials:credentials:1.2.2")
-    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")*/
+    // Coroutine Lifecycle Scopes
+    implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
 }
