@@ -56,13 +56,17 @@ class MainActivity : AppCompatActivity() {
                             placeholder = { Text("value") })
 
                         Row {
-                            Button(onClick = {
-                                lifecycleScope.launch { save(key, value) }
-                            }) { Text(text = "Save") }
+                            Button(
+                                onClick = { lifecycleScope.launch { save(key, value) } },
+                                enabled = value.isNotEmpty()
+                            ) { Text(text = "Save") }
 
-                            Button(onClick = {
-                                lifecycleScope.launch { value = read(key) ?: "No value found" }
-                            }) { Text(text = "Read") }
+                            Button(
+                                onClick = {
+                                    lifecycleScope.launch { value = read(key) ?: "No value found" }
+                                },
+                                enabled = value.isEmpty()
+                            ) { Text(text = "Read") }
                         }
 
                     }
