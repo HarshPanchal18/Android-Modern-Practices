@@ -38,7 +38,7 @@ class MyPreferencesDataStore @Inject constructor(
         val PRIORITY_KEY = stringPreferencesKey("priority")
     }
 
-    val taskStateFlow: Flow<Unit> = myPreferencesDataStore.data
+    val taskStateFlow: Flow<TaskStatus> = myPreferencesDataStore.data
         .catch { exception ->
             if (exception is IOException)
                 emit(emptyPreferences())
