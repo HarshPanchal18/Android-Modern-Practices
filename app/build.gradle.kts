@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.gradle.ktlint)
     id("kotlin-parcelize") // needed only for non-primitive classes
+    id("kotlin-kapt") // needed only for kotlin extensions
+    alias(libs.plugins.dagger.hilt.android)
+
 }
 
 android {
@@ -93,7 +96,11 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
 
     // Preferences Datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0-alpha04")
+    implementation(libs.androidx.datastore.preferences)
+
+    // Hilt
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")
 
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
