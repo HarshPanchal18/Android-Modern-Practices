@@ -17,6 +17,7 @@ class MainViewModel @Inject constructor(
     private val myPreferencesDataStore: MyPreferencesDataStore,
 ) : ViewModel() {
     val isCompleted: Flow<Boolean> = myPreferencesDataStore.taskStateFlow.map { it.isCompleted }
+    val priority: Flow<Priority> = myPreferencesDataStore.taskStateFlow.map { it.priority }
 
     fun updateIsCompleted(isCompleted: Boolean) {
         viewModelScope.launch {

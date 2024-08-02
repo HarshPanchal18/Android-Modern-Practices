@@ -1,90 +1,122 @@
 package com.example.modern_practices
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.preferencesKey
-import androidx.datastore.preferences.createDataStore
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.modern_practices.ui.theme.ModernPracticesTheme
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
 
-    private lateinit var dataStore: DataStore<Preferences>
+    private val mainViewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataStore = createDataStore("settings")
 
         setContent {
             ModernPracticesTheme {
+                val selectedIsCompleted by mainViewModel.isCompleted.collectAsState(initial = false)
+                val isCompletedStatus = if (selectedIsCompleted) "Yes" else "No"
+
+                // .collectAsState() will return a State<T> object. Every time there would be new value posted into the Flow, the returned State will be updated causing recomposition of every State.
+                val selectedPriority by mainViewModel.priority.collectAsState(initial = Priority.Low)
+                val priorityStatus = when (selectedPriority) {
+                    Priority.High -> "High"
+                    Priority.Medium -> "Medium"
+                    Priority.Low -> "Low"
+                }
+
                 Surface(modifier = Modifier.fillMaxSize()) {
                     Column(
-                        verticalArrangement = Arrangement.SpaceAround,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
-                        var key by remember { mutableStateOf("") }
-                        var value by remember { mutableStateOf("") }
+                        Text(
+                            text = "Task Status",
+                            fontFamily = FontFamily.Serif,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 22.sp
+                        )
 
-                        TextField(
-                            value = key,
-                            onValueChange = { key = it },
-                            placeholder = { Text("key") })
+                        Spacer(modifier = Modifier.size(16.dp))
 
-                        TextField(
-                            value = value,
-                            onValueChange = { value = it },
-                            placeholder = { Text("value") })
+                        Text(text = "Completed: $isCompletedStatus", fontSize = 22.sp)
 
-                        Row {
-                            Button(
-                                onClick = { lifecycleScope.launch { save(key, value) } },
-                                enabled = value.isNotEmpty()
-                            ) { Text(text = "Save") }
+                        Switch(
+                            checked = selectedIsCompleted,
+                            onCheckedChange = { mainViewModel.updateIsCompleted(it) })
 
-                            Button(
-                                onClick = {
-                                    lifecycleScope.launch { value = read(key) ?: "No value found" }
-                                },
-                                enabled = value.isEmpty()
-                            ) { Text(text = "Read") }
-                        }
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .fillMaxWidth(0.7F)
+                                .padding(vertical = 8.dp)
+                        )
+
+                        Text(text = "Priority: $priorityStatus", fontSize = 22.sp)
+
+                        PriorityRow(
+                            mainViewModel = mainViewModel,
+                            selectedPriority = selectedPriority
+                        )
+
+                        HorizontalDivider(
+                            modifier = Modifier
+                                .fillMaxWidth(0.7F)
+                                .padding(vertical = 8.dp)
+                        )
 
                     }
                 }
             }
         }
     }
+}
 
-    private suspend fun save(key: String, value: String) {
-        val dataStoreKey = preferencesKey<String>(key)
-        dataStore.edit { settings ->
-            settings[dataStoreKey] = value
+@Composable
+fun PriorityRow(
+    mainViewModel: MainViewModel,
+    selectedPriority: Priority,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(0.7F),
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Priority.entries.forEach { priority ->
+            Text(text = priority.name, overflow = TextOverflow.Ellipsis)
+            RadioButton(
+                selected = selectedPriority == priority,
+                onClick = { mainViewModel.updatePriority(priority) },
+                colors = RadioButtonDefaults.colors(selectedColor = priority.color)
+            )
         }
-    }
-
-    private suspend fun read(key: String): String? {
-        val dataStoreKey = preferencesKey<String>(key)
-        val preferences = dataStore.data.first()
-        return preferences[dataStoreKey]
     }
 }
