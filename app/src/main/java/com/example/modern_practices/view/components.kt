@@ -2,7 +2,9 @@ package com.example.modern_practices.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,12 +20,20 @@ import com.example.modern_practices.viewmodel.CounterViewModel
 fun Counter(state: CounterState?, onIntentReceived: (CounterIntent) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "${state?.count} ")
-        Button(onClick = { onIntentReceived(CounterIntent.Increment) }) {
-            Text(text = "Increment")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Button(onClick = { onIntentReceived(CounterIntent.Increment) }) {
+                Text(text = "Increment")
+            }
+            Text(text = "${state?.count} ")
+            Button(onClick = { onIntentReceived(CounterIntent.Decrement) }) {
+                Text(text = "Decrement")
+            }
         }
     }
 }

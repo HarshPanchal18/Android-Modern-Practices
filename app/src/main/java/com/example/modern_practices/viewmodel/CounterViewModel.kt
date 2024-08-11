@@ -17,6 +17,11 @@ class CounterViewModel : ViewModel() {
                 val newCount = _state.value?.count?.plus(1) ?: 0
                 _state.value = CounterState(count = newCount)
             }
+
+            CounterIntent.Decrement -> {
+                val newCount = _state.value?.count?.minus(1) ?: 0
+                _state.value = CounterState(count = newCount)
+            }
         }
     }
 }
