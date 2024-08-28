@@ -111,4 +111,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
 
     implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite-android:1.0.0-alpha05")
 }
