@@ -114,4 +114,6 @@ dependencies {
 
     implementation("androidx.compose.material3:material3-adaptive:1.0.0-alpha04")
 //    implementation("androidx.compose.material3:material3-adaptive-navigation-android:1.0.0-alpha05")
+
+    implementation("io.coil-kt:coil-compose:2.5.0")
 }
