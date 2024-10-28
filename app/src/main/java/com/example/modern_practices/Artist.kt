@@ -2,6 +2,7 @@ package com.example.modern_practices
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.util.fastAny
 
 data class Artist(
     val img: Int,
@@ -10,6 +11,11 @@ data class Artist(
 ) {
     fun toggleSelection() {
         isSelected.value = !isSelected.value
+    }
+
+    fun isMatchWithQuery(query: String): Boolean {
+        val matchResult = listOf(name, "${name.first()}")
+        return matchResult.fastAny { it.contains(other = query, ignoreCase = true) }
     }
 }
 
